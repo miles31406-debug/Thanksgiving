@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Project</title>
+  <link href="https://googleapis.com" rel="stylesheet">
+  
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      /* Off-white paper tone with your custom image; grayscale(100%) keeps it strictly monochrome */
+      background-color: #f4f4f2;
+      background-image: url('bg.jpg');
+      background-size: cover;
+      background-position: center;
+      color: #141414;
+      font-family: 'Courier Prime', monospace;
+      overflow: hidden;
+    }
+
+    /* Optional subtle vignette or tint so text stays readable over any background image */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(244, 244, 242, 0.78);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .prompt-area {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      width: 90%;
+      max-width: 380px;
+    }
+
+    /* Floating borderless image (works best with a transparent PNG or sketch) */
+    .floating-art {
+      max-width: 120px;
+      max-height: 120px;
+      margin-bottom: 1.5rem;
+      filter: grayscale(100%) contrast(1.1);
+    }
+
+    p.prompt-label {
+      font-size: 0.95rem;
+      letter-spacing: 0.15em;
+      text-transform: lowercase;
+      margin: 0 0 1.25rem 0;
+      opacity: 0.8;
+    }
+
+    /* Completely transparent input with only a bottom hairline */
+    input[type="text"] {
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid #141414;
+      padding: 8px 4px;
+      font-family: 'Courier Prime', monospace;
+      font-size: 1.25rem;
+      color: #141414;
+      text-align: center;
+      letter-spacing: 0.1em;
+      outline: none;
+      border-radius: 0;
+    }
+
+    input[type="text"]::placeholder {
+      color: rgba(20, 20, 20, 0.35);
+      font-style: italic;
+    }
+
+    /* Minimal text-only submit trigger instead of a heavy button */
+    button {
+      margin-top: 1.5rem;
+      background: transparent;
+      border: none;
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.85rem;
+      letter-spacing: 0.2em;
+      color: #141414;
+      cursor: pointer;
+      opacity: 0.6;
+      transition: opacity 0.2s, letter-spacing 0.2s;
+    }
+
+    button:hover {
+      opacity: 1;
+      letter-spacing: 0.28em;
+    }
+
+    #errorMessage {
+      font-size: 0.85rem;
+      font-style: italic;
+      margin-top: 1.25rem;
+      min-height: 1.2rem;
+      opacity: 0.75;
+    }
+
+    @keyframes subtleShake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+
+    .shake {
+      animation: subtleShake 0.25s ease-in-out;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Soft monochrome veil over bg.jpg -->
+  <div class="overlay"></div>
+
+  <!-- Custom sound effects -->
+  <audio id="typeSound" src="CS_VOLUME_CONFIG.wav" preload="auto"></audio>
+  <audio id="errorSound" src="WSD_SE_S37_CANCEL.wav" preload="auto"></audio>
+  <audio id="successSound" src="chime.mp3" preload="auto"></audio>
+
+  <main class="prompt-area" id="promptArea">
+    <!-- Transparent PNG sketch, symbol, or doodle -->
+    <img src="sticker.png" alt="" class="floating-art">
+    
+    <p class="prompt-label">enter <strong>your</strong> name</p>
+    
+    <form onsubmit="checkInput(event)">
+      <input type="text" id="codeBox" placeholder="..." autocomplete="off" autofocus required>
+      <br>
+      <button type="submit">[ ENTER ]</button>
+    </form>
+    
+    <p id="errorMessage"></p>
+  </main>
+
+  <script>
+    const inputField = document.getElementById("codeBox");
+    const typeSound = document.getElementById("typeSound");
+    const errorSound = document.getElementById("errorSound");
+    const successSound = document.getElementById("successSound");
+
+    // Trigger typing sound on keystroke
+    inputField.addEventListener("input", () => {
+      typeSound.currentTime = 0;
+      typeSound.play().catch(() => {});
+    });
+
+    function checkInput(event) {
+      event.preventDefault();
+
+      const errorText = document.getElementById("errorMessage");
+      const promptArea = document.getElementById("promptArea");
+      const userInput = inputField.value.trim().toLowerCase();
+
+      const pages = {
+        "kamile": "secret.html",
+        "ashlyn": "gallery.html",
+	"lainey": "gallery.html",
+	"emma": "gallery.html",
+	"emily": "gallery.html",
+	"zech": "gallery.html",
+	"miles": "gallery.html"
+     };
+
+      if (pages[userInput]) {
+        successSound.play().catch(() => {});
+        setTimeout(() => {
+          window.location.href = pages[userInput];
+        }, 600);
+      } else {
+        errorSound.currentTime = 0;
+        errorSound.play().catch(() => {});
+        
+        errorText.textContent = "nothing happened.";
+        inputField.value = "";
+        
+        promptArea.classList.remove("shake");
+        void promptArea.offsetWidth;
+        promptArea.classList.add("shake");
+      }
+    }
+  </script>
+
+</body>
+</html>

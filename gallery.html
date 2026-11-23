@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Friends</title>
+  <style>
+    /* Basic styling to make the layout clean and centered */
+    body {
+      position: relative;          /* Anchors the flower to your centered text block */
+      font-family: system-ui, -apple-system, sans-serif;
+      max-width: 750px;
+      margin: 40px auto;
+      padding: 0 20px;
+      line-height: 1.6;
+      color: #111;
+      background-color: #fff;
+      overflow-x: hidden;          /* Prevents sideways scrolling if the flower is wide */
+    }
+
+    /* Styling for the single large background flower */
+    .bg-flower {
+      position: absolute;          /* Scrolls naturally down the page with your content */
+      top: 0;                      /* Starts at the top of your text block */
+      left: 20px;                  /* Matches the body's 20px left padding so it aligns with your text */
+      width: 550px;                /* Scales the flower large so it extends far down the page */
+      max-width: 90%;              /* Keeps it proportional on narrower iPhone screens */
+      height: auto;
+      margin: 0;
+      z-index: -1;                 /* Places it underneath your text and main photos */
+      opacity: 0.22;               /* Semi-transparent watermark effect */
+      pointer-events: none;        /* Ensures clicks and text selection pass right through */
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Clean styling for the looping audio player */
+    .music-player {
+      margin: 16px 0 20px 0;
+      width: 100%;
+      max-width: 300px;
+      height: 36px;
+      display: block;
+    }
+
+    /* Container for your alternating memories */
+    .memories-section {
+      margin-top: 36px;
+    }
+
+    /* Each image + text row */
+    .memory-row {
+      display: flex;
+      align-items: center;         /* Vertically centers the text next to the photo */
+      gap: 24px;                   /* Space between photo and text */
+      margin-bottom: 36px;         /* Space between each memory block */
+    }
+
+    /* Automatically puts the image on the right for every 2nd, 4th, 6th... row */
+    .memory-row:nth-child(even) {
+      flex-direction: row-reverse;
+    }
+
+/* Wrapper shrinks/grows to the exact size of the photo inside */
+.photo-frame {
+  position: relative;
+  display: inline-block;
+  max-width: 240px;            /* Controls max width on desktop */
+  flex-shrink: 0;
+  border: 32px solid transparent; /* Thickness of the floral border */
+  border-image-slice: 30%;        /* Adjust between 20%–40% depending on flower thickness */
+  border-image-repeat: stretch;   /* Use 'round' or 'repeat' if your border is a pattern */
+  box-sizing: border-box;
+}
+
+/* Photo fills the inside of the border naturally */
+.memory-photo {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* SEQUENCE: Assigns Floral 1, 2, 3, then loops back to 1 */
+.memory-row:nth-child(3n + 1) .photo-frame {
+  border-image-source: url('frame-1.png');
+}
+
+.memory-row:nth-child(3n + 2) .photo-frame {
+  border-image-source: url('frame-2.png');
+}
+
+.memory-row:nth-child(3n + 3) .photo-frame {
+  border-image-source: url('frame-3.png');
+}
+
+
+   
+
+    .memory-text h2 {
+      margin-top: 0;
+      margin-bottom: 8px;
+      font-size: 1.35rem;
+    }
+
+    .memory-text p {
+      margin: 0;
+    }
+
+    /* On narrow iPhone screens, stacks the photo neatly above the text */
+    @media (max-width: 560px) {
+      .memory-row,
+      .memory-row:nth-child(even) {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      .photo-frame {
+        width: 100%;
+        max-width: 260px;          /* Keeps framed photos compact even on mobile */
+      }
+    }
+  </style>
+</head>
+<body>
+
+  
+  <!-- Main Heading -->
+  <h1>Thank You!</h1>
+
+  <!-- Looping Audio Player (Replace music.mp3 with your audio file name) -->
+  <audio id="bg-music" class="music-player" controls loop>
+    <source src="kris-7-4.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <!-- Introductory Paragraph -->
+  <p>Hey guys. I was looking through some photos recently and it made me realize how much has happened to me in just the last 200 weeks of my life.
+I graduated highschool, fell in love, got my associates, went to Europe <strong>TWICE</strong>, and got another chance at hanging out with all of you!
+ All this thinking got me feeling pretty gracious, and when I'm in tune with that I tend to get a little creative. In short, this is just a small thing
+I made in order to show my appreciation! I'll come back to update the site from time to time. As always, thanks for being my friend - Sincerely, Miles</p>
+
+  <!-- Alternating Image & Text Section -->
+  <div class="memories-section">
+
+    <!-- Memory 1: Automatically gets floral-1.png -->
+    <div class="memory-row">
+      <div class="photo-frame">
+        <img src="puzzle.jpg" alt="A brief description of your image" class="memory-photo">
+      </div>
+      <div class="memory-text">
+        <h2>PUZZLE.JPG</h2>
+        <p>First hangout back with everyone. Maybe we can do another one some day.</p>
+      </div>
+    </div>
+
+    <!-- Memory 2: Automatically gets floral-2.png -->
+    <div class="memory-row">
+      <div class="photo-frame">
+        <img src="first-selfie.jpg" alt="Description of second memory" class="memory-photo">
+      </div>
+      <div class="memory-text">
+        <h2>POSTED_UP.JPG</h2>
+        <p><strong>AWWWWWW!</strong> Look at all of us! Very kawaii.</p>
+      </div>
+    </div>
+
+    <!-- Memory 3: Automatically gets floral-3.png -->
+    <div class="memory-row">
+      <div class="photo-frame">
+        <img src="late-night.jpg" alt="Description of third memory" class="memory-photo">
+      </div>
+      <div class="memory-text">
+        <h2>LATE_NIGHT.JPG</h2>
+        <p>I liked this one because of little Luis if i'm being honest. Can you believe how long it's been?</p>
+      </div>
+    </div>
+
+    <!-- Memory 4: Automatically loops back to floral-1.png -->
+    <div class="memory-row">
+      <div class="photo-frame">
+        <img src="wreck.jpg" alt="Description of fourth memory" class="memory-photo">
+      </div>
+      <div class="memory-text">
+        <h2>BREAKING.JPG</h2>
+        <p>It felt a little like a fever dream with the Marvin Gaye and the sweating. I like the active hangouts so this was enjoyable.</p>
+      </div>
+    </div>
+
+
+  </div>
+
+  <!-- Optional: Starts the looping music automatically on the visitor's first tap/click -->
+  <script>
+    document.addEventListener('click', function() {
+      const audio = document.getElementById('bg-music');
+      if (audio.paused) {
+        audio.play().catch(() => {});
+      }
+    }, { once: true });
+  </script>
+
+</body>
+</html>
